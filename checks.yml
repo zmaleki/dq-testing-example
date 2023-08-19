@@ -1,0 +1,25 @@
+checks for TRANSACTIONS:
+  - row_count > 0
+  - freshness(TRANSACTION_DATE) < 1d
+  - duplicate_count(TRANSACTION_ID) = 0
+  - missing_count(USER_ID) = 0
+  - missing_count(TRANSACTION_AMOUNT) = 0
+  - schema:
+      fail:
+        when required column missing: [TRANSACTION_ID, USER_ID, PRODUCT_ID, TRANSACTION_DATE, TRANSACTION_AMOUNT]
+
+checks for PRODUCT:
+  - row_count > 0
+  - duplicate_count(PRODUCT_ID) = 0
+  - missing_count(PRODUCT_ID) = 0
+  - missing_count(PRODUCT_NAME) = 0
+  - invalid_count(PRODUCT_CATEGORY) = 0:
+      valid values: ['Category A', 'Category B', 'Category C']
+  - schema:
+      fail:
+        when required column missing: [PRODUCT_ID, PRODUCT_NAME, PRODUCT_CATEGORY, DATE]
+  - new_products_in_last_3_months > 3:
+      new_products_in_last_3_months query: |
+        SELECT COUNT(*) 
+        FROM PRODUCT
+        WHERE DATE > DATEADD(MONTH, -3, CURRENT_DATE)

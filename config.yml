@@ -1,0 +1,15 @@
+data_source my_data_source:
+  type: snowflake
+  connection:
+    username: email_address
+    password:
+    account: account_number.region
+    database: CARTER_TALK_DEMO_PROD
+    warehouse: ENGINEER
+    role: ACCOUNTADMIN
+    client_session_keep_alive: true
+    authenticator: externalbrowser
+    session_parameters:
+      QUERY_TAG: soda-queries
+      QUOTED_IDENTIFIERS_IGNORE_CASE: false
+  schema: CLEAN
